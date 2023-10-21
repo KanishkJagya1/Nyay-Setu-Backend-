@@ -1,28 +1,10 @@
 const express = require('express');
+const body_parser = require('body-parser');
 const app = express();
-const port = 3000;
+const UserRouter = require('./routes/auth');
 
-// Middleware to handle JSON data
-app.use(express.json());
+app.use(body_parser.json());
 
-// Middleware to handle URL-encoded data
-app.use(express.urlencoded({ extended: true }));
+app.use('/',UserRouter);
 
-// Serve static files from the 'public' folder
-app.use(express.static('public'));
-
-// Route to handle GET requests to the root URL ('/')
-app.get('/', (req, res) => {
- res.sendFile(__dirname + '/views/index.html');
-});
-
-// Route to handle POST requests to the '/submit' URL
-app.post('/submit', (req, res) => {
- console.log('Form data received:', req.body);
- res.send('Form data received!');
-});
-
-// Start the server
-app.listen(port, () => {
- console.log(`Server is running on port ${port}`);
-});
+module.exports = app;
